@@ -9,9 +9,12 @@ services:
     volumes:
       - ./ai-engine:/usr/src/app
       - /usr/src/app/__pycache__
+      - chroma_data:/usr/src/app/chroma_data
     environment:
       - PORT=8000
       - GROQ_API_KEY=${GROQ_API_KEY}
+      - CHROMA_PERSIST_DIR=/usr/src/app/chroma_data
+      - CHROMA_COLLECTION=reposage_code_chunks
     restart: always
 
   backend:
@@ -35,6 +38,9 @@ services:
     depends_on:
       - ai-engine
     restart: always
+
+volumes:
+  chroma_data:
 
   frontend:
     build:
